@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Enriqueta:wght@400;500;600;700&family=Literata:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'cv_builder/template_1/cv.css' %}">
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="left">
+            <div class="title_name">
+                {{ header.name }}
+            </div>
+            <div class="title_description">
+                {{ header.description | safe }}
+            </div>
+        </div>
+        <div class="right">
+            <div class="photo">
+                <img src="{% static header.picture %}" alt="">
+            </div>
+        </div>
+    </div>
+    <div class="main_content">
+        <div class="left">
+            {% for section in left_sections %}
+                <div class="section">
+                    <div class="title">
+                        {{ section.title }}
+                    </div>
+                    {% for sub_section in section.sub_sections %}
+                        <div class="sub_section">
+                            <div class="date_location">
+                                {{ sub_section.date }}<br>
+                                {{ sub_section.location }}
+                            </div>
+                            <div class="sub_section-main">
+                                <span class="sub_section-title">
+                                    {{ sub_section.title }}
+                                </span>
+                                {% if sub_section.side_title %}
+                                    <span class="sub_section-subtitle">
+                                        - {{ sub_section.side_title }}
+                                    </span>
+                                {% endif %}
+                                {% if sub_section.sub_title %}
+                                    <div class="sub_section-subtitle">
+                                        {{ sub_section.sub_title }}
+                                    </div>
+                                {% endif %}
+                                {% if sub_section.body %}
+                                    <div class="sub_section-body">
+                                        {{ sub_section.body|safe }}
+                                    </div>
+                                {% endif %}
+                                {% if sub_section.elements_title or sub_section.elements_body %}
+                                    <div class="sub_section-elements">
+                                        <span class="elements_title">{{ sub_section.elements_title }}</span>
+                                        &nbsp;
+                                        <span class="elements_body">{{ sub_section.elements_body | safe }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="right">
+            <div class="section contact_info">
+                <div class="title">
+                    {{ contact_info.title }}
+                </div>
+                <div class="sub_section">
+                    <div class="address">
+                        {{ contact_info.address | safe }}
+                    </div>
+                    <div class="phone_number"><a href="tel:{{ contact_info.phone }}">{{ contact_info.phone }}</a></div>
+                    <div class="email"><a href="mailto:{{ contact_info.email }}">{{ contact_info.email }}</a>
+                    </div>
+                    <div class="links">
+                        {% for link in contact_info.links %}
+                            <div class="website_link">{{ link.name }}
+                                <u><a href="{{ link.url }}" target="_blank">{{ link.text }}</a></u>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="other">
+                        {{ contact_info.other | safe }}
+                    </div>
+                </div>
+            </div>
+            {% for section in right_sections %}
+                <div class="section">
+                <div class="title">
+                    {{ section.title }}
+                </div>
+                {% for sub_section in section.sub_sections %}
+                    <div class="sub_section">
+                        <div>
+                            <span class="sub_section-title">{{ sub_section.title }}</span>
+                            {% if sub_section.side_title %}
+                                <span class="sub_section-subtitle">- {{ sub_section.side_title }}</span>
+                            {% endif %}
+                            {% if sub_section.body %}
+                                <div class="sub_section-body">
+                                    {{ sub_section.body|safe }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
